@@ -2,7 +2,7 @@ import React from "react";
 import s from './Profile.module.css'
 import MyPosts from "./MyPosts/MyPosts";
 
-const Profile = () => {
+function Profile () {
     return (
         <div className={s.content}>
             <img

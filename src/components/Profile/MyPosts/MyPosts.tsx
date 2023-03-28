@@ -1,14 +1,13 @@
-import React from "react";
-import s from './MyPosts.module.css'
 import Post from "./Post/Post";
+import s from './MyPosts.module.css'
 
-const MyPosts = () => {
+function MyPosts () {
     return (
         <div>
             My posts
             <div>
                 <textarea></textarea>
-                <button>Add post</button>
+                <button>+Add post</button>
                 <button>Remove</button>
             </div>
 
@@ -19,7 +18,7 @@ const MyPosts = () => {
 
             </div>
         </div>
-)
+    )
 }
 
 export default MyPosts
