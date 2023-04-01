@@ -1,8 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .header {
     grid-area: h;
-    background-color: deepskyblue;
+    background-color: #6C63FF;
 
 }
 .header img {
     width: 110px;
+    background-color: transparent;
 }
