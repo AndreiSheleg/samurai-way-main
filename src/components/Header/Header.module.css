@@ -7,6 +7,7 @@
 .header {
     grid-area: h;
     background-color: #6C63FF;
+    line-height: 1.2;
 
 }
 .header img {
