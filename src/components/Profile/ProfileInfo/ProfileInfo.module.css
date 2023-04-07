@@ -4,10 +4,6 @@
     box-sizing: border-box;
 }
 
-.postsBlock {
+.descriptionBlock {
     padding: 10px;
-}
-
-.posts {
-    margin-top: 10px;
 }
