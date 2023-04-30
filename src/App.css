@@ -9,11 +9,12 @@
     margin: 0 auto;
     width: 1200px;
 
+    /*h h это область header; navbar content*/
     grid-template-areas:
     "h h"
     "n c";
 
-    grid-template-rows: 60px 1fr;
+    grid-template-rows: 80px 1fr;
     grid-template-columns: 2fr 10fr;
     /*grid-gap: 10px - отвечает за белую линию между компонентами*/
 }
