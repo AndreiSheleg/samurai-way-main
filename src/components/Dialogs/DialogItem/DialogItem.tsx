@@ -3,7 +3,7 @@ import s from './../Dialogs.module.css'
 import {NavLink} from 'react-router-dom';
 
 type DialogItemType = {
-    id: number
+    id?: number
     name: string
 }
 // BLL - business logic layer (DATA)
