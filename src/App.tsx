@@ -11,11 +11,15 @@ import {Settings} from './components/Settings/Settinsgs';
 
 const App = () => {
     return (
+        //№26 мы хотим, чтобы всё контролировалось компонентой браузер-роутер, чтобы при клике по ссылке
+        // страница перезагружалась
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
                 <Navbar/>
                 <div className="app-wrapper-content">
+                    {/*компоненты ROUTE следит за URL и если компонена видит, то URL изменился и стал равен
+                    /dialogs, то он автоматически подгружает компоненту Dialogs*/}
                     <Route path='/dialogs' component={Dialogs}/>
                     <Route path='/profile' component={Profile}/>
                     <Route path='/news' component={News}/>
