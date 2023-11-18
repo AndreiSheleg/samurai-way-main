@@ -1,5 +1,6 @@
 import Post from './Post/Post';
 import s from './MyPosts.module.css'
+import React from "react";
 
 export type PostType = {
     id: number,
@@ -11,7 +12,7 @@ export type MyPostsPropsType = {
     posts: PostType[]
 }
 
-function MyPosts(props:MyPostsPropsType) {
+const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
 /*    let posts = [
         {id: 1, message: 'Hi, how are you?', likeCount: 12},
