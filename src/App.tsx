@@ -9,9 +9,13 @@ import {News} from './components/News/News';
 import {Music} from './components/Music/Music';
 import {Settings} from './components/Settings/Settinsgs';
 import {PostType} from './components/Profile/MyPosts/MyPosts';
-import {state} from "./redux/state";
+import {RootStateType, state} from "./redux/state";
 
-const App = () => {
+type AppType = {
+    state: RootStateType
+    addPost: (postMessage: string) => void
+}
+const App : React.FC<AppType> = (props) => {
 
     return (
         //№26 мы хотим, чтобы всё контролировалось компонентой браузер-роутер, чтобы при клике по ссылке
@@ -24,9 +28,9 @@ const App = () => {
                     {/*компоненты ROUTE следит за URL и если компонена видит, то URL изменился и стал равен
                     /dialogs, то он автоматически подгружает компоненту Dialogs*/}
 
-                    <Route path='/dialogs' render={ () => <Dialogs state={state.dialogsPage}/>}/>
+                    <Route path='/dialogs' render={ () => <Dialogs state={props.state.dialogsPage}/>}/>
 
-                    <Route path='/profile' render={ () => <Profile state={state.profilePage}/>}/>
+                    <Route path='/profile' render={ () => <Profile state={props.state.profilePage} addPost={props.addPost} />}/>
 
                     <Route path='/news' render={ () => <News/>} />
 

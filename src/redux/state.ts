@@ -1,6 +1,5 @@
-
 // @ts-ignore
-type MessagesType ={
+type MessagesType = {
     id: number
     message: string
 }
@@ -25,11 +24,9 @@ export type DialogPageType = {
     messages: MessagesType[]
 }
 
-type SidebarType = {
+type SidebarType = {}
 
-}
-
-type RootStateType = {
+export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogPageType
     sidebar: SidebarType
@@ -64,4 +61,14 @@ export let state: RootStateType = {
     },
     sidebar: {}
 
+}
+
+export let addPost = (postMessage: string) => {
+    console.log('звонок из функции addPost: ', postMessage)
+    let newPost: PostsType = {
+        id: 5,
+        message: postMessage,
+        likeCount: 0
+    }
+    state.profilePage.posts.push(newPost)
 }

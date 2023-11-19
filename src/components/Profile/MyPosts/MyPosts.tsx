@@ -10,28 +10,33 @@ export type PostType = {
 
 export type MyPostsPropsType = {
     posts: PostType[]
+    addPost: (postMessage: string) => void
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
-/*    let posts = [
-        {id: 1, message: 'Hi, how are you?', likeCount: 12},
-        {id: 2, message: "It's my first post", likeCount: 11},
-        {id: 3, message: "Blf-blf", likeCount: 11},
-        {id: 4, message: "Hm...", likeCount: 11},
-    ]*/
-
     let postsElements = props.posts.map( p => <Post message={p.message} likeCount={p.likeCount}/>)
+
+    let newPostElement = React.createRef<HTMLTextAreaElement>()
+    let addPost = () => {
+        //ОБРАТИ ВНИМАНИЕ НА ЗАПИСЬ CURRENT?VALUE - ТАК МЫ ЗАЩИЩАЕМСЯ ОТ СЛУЧАЯ, КОГДА ХОТИМ ВЗЯТЬ VALUE У NULL
+        // ЕСЛИ  CURRENT НЕ СУЩЕСТВУЕТ, ТО МЫ ДАЛЬШЕ НЕ ПОЙДЁМ И ТАЙПСКРИПТ НЕ БУДЕТ РУГАТЬСЯ
+        // let text = newPostElement.current?.value
+        if(newPostElement.current){
+            props.addPost(newPostElement.current.value)
+        }
+
+    }
 
     return (
         <div className={s.postsBlock}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea></textarea>
+                    <textarea ref={newPostElement}></textarea>
                 </div>
                 <div>
-                    <button>+Add post</button>
+                    <button onClick={ addPost }>+Add post</button>
                 </div>
             </div>
 
