@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEventHandler} from 'react';
 import './App.css';
 import Header from './components/Header/Header'
 import Navbar from './components/Navbar/Navbar'
@@ -8,14 +8,14 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import {News} from './components/News/News';
 import {Music} from './components/Music/Music';
 import {Settings} from './components/Settings/Settinsgs';
-import {PostType} from './components/Profile/MyPosts/MyPosts';
-import {RootStateType, state} from "./redux/state";
+import {RootStateType} from "./redux/state";
 
 type AppType = {
     state: RootStateType
     addPost: (postMessage: string) => void
+    updateNewPostText: (newText: string) => void
 }
-const App : React.FC<AppType> = (props) => {
+const App: React.FC<AppType> = (props) => {
 
     return (
         //№26 мы хотим, чтобы всё контролировалось компонентой браузер-роутер, чтобы при клике по ссылке
@@ -28,15 +28,17 @@ const App : React.FC<AppType> = (props) => {
                     {/*компоненты ROUTE следит за URL и если компонена видит, то URL изменился и стал равен
                     /dialogs, то он автоматически подгружает компоненту Dialogs*/}
 
-                    <Route path='/dialogs' render={ () => <Dialogs state={props.state.dialogsPage}/>}/>
+                    <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage}/>}/>
 
-                    <Route path='/profile' render={ () => <Profile state={props.state.profilePage} addPost={props.addPost} />}/>
+                    <Route path='/profile'
+                           render={() => <Profile profilePage={props.state.profilePage} addPost={props.addPost}
+                                                  updateNewPostText={props.updateNewPostText}/>}/>
 
-                    <Route path='/news' render={ () => <News/>} />
+                    <Route path='/news' render={() => <News/>}/>
 
-                    <Route path='/music' render={ () => <Music/>} />
+                    <Route path='/music' render={() => <Music/>}/>
 
-                    <Route path='/settings' render={ () => <Settings/>} />
+                    <Route path='/settings' render={() => <Settings/>}/>
 
                 </div>
             </div>

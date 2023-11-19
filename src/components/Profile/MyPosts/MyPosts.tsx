@@ -1,6 +1,6 @@
 import Post from './Post/Post';
 import s from './MyPosts.module.css'
-import React from "react";
+import React, {ChangeEvent} from "react";
 
 export type PostType = {
     id: number,
@@ -10,22 +10,24 @@ export type PostType = {
 
 export type MyPostsPropsType = {
     posts: PostType[]
+    newPostText: string
     addPost: (postMessage: string) => void
+    updateNewPostText: (newText: string) => void
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
-    let postsElements = props.posts.map( p => <Post message={p.message} likeCount={p.likeCount}/>)
+    let postsElements = props.posts.map(p => <Post message={p.message} likeCount={p.likeCount}/>)
 
-    let newPostElement = React.createRef<HTMLTextAreaElement>()
+
     let addPost = () => {
-        //ОБРАТИ ВНИМАНИЕ НА ЗАПИСЬ CURRENT?VALUE - ТАК МЫ ЗАЩИЩАЕМСЯ ОТ СЛУЧАЯ, КОГДА ХОТИМ ВЗЯТЬ VALUE У NULL
-        // ЕСЛИ  CURRENT НЕ СУЩЕСТВУЕТ, ТО МЫ ДАЛЬШЕ НЕ ПОЙДЁМ И ТАЙПСКРИПТ НЕ БУДЕТ РУГАТЬСЯ
-        // let text = newPostElement.current?.value
-        if(newPostElement.current){
-            props.addPost(newPostElement.current.value)
-        }
+        props.addPost(props.newPostText)
 
+    }
+
+
+    let onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.updateNewPostText(e.currentTarget.value)
     }
 
     return (
@@ -33,10 +35,10 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea ref={newPostElement}></textarea>
+                    <textarea onChange={onPostChange} value={props.newPostText}/>
                 </div>
                 <div>
-                    <button onClick={ addPost }>+Add post</button>
+                    <button onClick={addPost}>+Add post</button>
                 </div>
             </div>
 

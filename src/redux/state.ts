@@ -1,4 +1,7 @@
 // @ts-ignore
+import {renderTree} from "../renderTree";
+import {ChangeEventHandler} from "react";
+
 type MessagesType = {
     id: number
     message: string
@@ -17,6 +20,7 @@ type PostsType = {
 
 export type ProfilePageType = {
     posts: PostsType[]
+    newPostText: string
 }
 
 export type DialogPageType = {
@@ -40,6 +44,7 @@ export let state: RootStateType = {
             {id: 3, message: "Blf-blf", likeCount: 11},
             {id: 4, message: "Hm...", likeCount: 11},
         ],
+        newPostText: 'заглушка внутри state'
     },
     dialogsPage: {
         dialogs: [
@@ -71,4 +76,11 @@ export let addPost = (postMessage: string) => {
         likeCount: 0
     }
     state.profilePage.posts.push(newPost)
+    renderTree(state)
+    updateNewPostText('')
+}
+
+export const updateNewPostText = (newText: string) => {
+    state.profilePage.newPostText = newText
+    renderTree(state)
 }
