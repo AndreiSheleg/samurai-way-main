@@ -44,17 +44,35 @@ export type StoreType = {
     dispatch: (action: ActionsTypes) => void
 }
 
-export type AddPostActionType = {
-    type: 'ADD-POST'
-    postMessage: string
-}
+// export type AddPostActionType = {
+//     type: 'ADD-POST'
+//     postMessage: string
+// }
+//
+// export type UpdateNewPostTextActionType = {
+//     type: 'UPDATE-NEW-POST-TEXT'
+//     newText: string
+// }
 
-export type UpdateNewPostTextActionType = {
-    type: 'UPDATE-NEW-POST-TEXT'
-    newText: string
-}
+export type AddPostActionType = ReturnType<typeof addPostAC>
+
+export type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextAC>
 
 export type ActionsTypes = AddPostActionType | UpdateNewPostTextActionType
+
+export const addPostAC = (postMessage: string) => {
+    return {
+        type: 'ADD-POST',
+        postMessage: postMessage
+    } as const
+}
+
+export const updateNewPostTextAC = (newText:string) => {
+    return {
+        type: 'UPDATE-NEW-POST-TEXT',
+        newText: newText
+    } as const
+}
 export const store: StoreType = {
     _state: {
         profilePage: {
