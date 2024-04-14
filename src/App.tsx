@@ -8,44 +8,43 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import {News} from './components/News/News';
 import {Music} from './components/Music/Music';
 import {Settings} from './components/Settings/Settinsgs';
-import {RootStateType, StoreType} from "./redux/state";
+import {ActionsTypes, RootStateType, StoreType} from "./redux/state";
 import {store} from "./redux/state";
 
 type AppPropsType = {
     state: RootStateType
-    updateNewPostText: (newText: string) => void
-    addPost: (postMessage: string) => void
+    //addPost: (postMessage: string) => void
+    //updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionsTypes) => void
 }
 const App: React.FC<AppPropsType> = (props) => {
 
-      return (
+    return (
         //№26 мы хотим, чтобы всё контролировалось компонентой браузер-роутер, чтобы при клике по ссылке
         // страница перезагружалась
 
-            <div className="app-wrapper">
-                <Header/>
-                <Navbar/>
-                <div className="app-wrapper-content">
-                    {/*компоненты ROUTE следит за URL и если компонена видит, то URL изменился и стал равен
+        <div className="app-wrapper">
+            <Header/>
+            <Navbar/>
+            <div className="app-wrapper-content">
+                {/*компоненты ROUTE следит за URL и если компонена видит, то URL изменился и стал равен
                     /dialogs, то он автоматически подгружает компоненту Dialogs*/}
 
-                    <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage}/>}/>
+                <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage}/>}/>
 
-                    <Route path='/profile'
-                           render={() => <Profile
-                               profilePage={props.state.profilePage}
-                               addPost={props.addPost}
-                               updateNewPostText={props.updateNewPostText}
-                                                  /> } />
+                <Route path='/profile'
+                       render={() => <Profile
+                           profilePage={props.state.profilePage}
+                           dispatch={props.dispatch} /> } />
 
-                    <Route path='/news' render={() => <News/>}/>
+                <Route path='/news' render={() => <News/>}/>
 
-                    <Route path='/music' render={() => <Music/>}/>
+                <Route path='/music' render={() => <Music/>}/>
 
-                    <Route path='/settings' render={() => <Settings/>}/>
+                <Route path='/settings' render={() => <Settings/>}/>
 
-                </div>
             </div>
+        </div>
 
 
     );

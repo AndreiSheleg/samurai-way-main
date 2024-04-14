@@ -37,14 +37,11 @@ export type RootStateType = {
 export type StoreType = {
     _state: RootStateType
     getState: () => RootStateType
-    addPost: (postMessage: string) => void
-    updateNewPostText: (newText: string) => void
 
     subscribe: (callback: (state: RootStateType) => void ) => void
     _onChange: (state: RootStateType) => void
 
-
-    // dispatch: (action: ActionsTypes) => void
+    dispatch: (action: ActionsTypes) => void
 }
 
 export type AddPostActionType = {
@@ -90,49 +87,33 @@ export const store: StoreType = {
         sidebar: {}
 
     },
-
-    addPost() {
-        let newPost:PostsType = {
-        id: new Date().getTime(),
-        message: this._state.profilePage.newPostText,
-        likeCount: 0
-    }
-    this._state.profilePage.posts.push(newPost)
-    this._state.profilePage.newPostText = ''
-    this._onChange(this._state)
-    },
-    updateNewPostText (newText: string) {
-        this._state.profilePage.newPostText = newText
-        this._onChange(this._state)
-    },
     _onChange() {
         //_callSubscriber в пути самурая
         console.log('State changed')
     },
 
+    getState() {
+        return this._state
+    },
     subscribe (callback) {
         //observer или callback - одно и тоже
         this._onChange = callback
     },
-    getState() {
-        return this._state
-    },
 
-//     dispatch (action) {
-// if(action.type === 'ADD-POST') {
-//     console.log('звонок из функции addPost: ', postMessage)
-//     let newPost: PostsType = {
-//         id: 5,
-//         message: action.postMessage,
-//         likeCount: 0
-//     }
-//     this._state.profilePage.posts.push(newPost)
-//     this._onChange()
-//
-// } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-//     this._state.profilePage.newPostText = action.newText
-//     this._onChange()
-// }
-//     }
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            let newPost:PostsType = {
+                id: new Date().getTime(),
+                message: this._state.profilePage.newPostText,
+                likeCount: 0
+            }
+            this._state.profilePage.posts.push(newPost)
+            this._state.profilePage.newPostText = ''
+            this._onChange(this._state)
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText
+            this._onChange(this._state)
+        }
+    }
 
 }
