@@ -5,7 +5,7 @@ export const Settings = (props: any) => {
 
     return (
         <div>
-            Settings
+            Settings - компонента
         </div>
     )
 }

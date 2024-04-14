@@ -5,7 +5,7 @@ export const News = (props: any) => {
 
     return (
         <div>
-            Newssss
+            News - компонента
         </div>
     )
 }

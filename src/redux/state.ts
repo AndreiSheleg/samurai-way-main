@@ -1,3 +1,5 @@
+import {message} from "antd";
+
 type MessagesType = {
     id: number
     message: string
@@ -34,12 +36,28 @@ export type RootStateType = {
 
 export type StoreType = {
     _state: RootStateType
-    updateNewPostText: (newText: string) => void
-    addPost: (postMessage: string) => void
-    _onChange: () => void
-    subscribe: (callback: () => void ) => void
     getState: () => RootStateType
+    addPost: (postMessage: string) => void
+    updateNewPostText: (newText: string) => void
+
+    subscribe: (callback: (state: RootStateType) => void ) => void
+    _onChange: (state: RootStateType) => void
+
+
+    // dispatch: (action: ActionsTypes) => void
 }
+
+export type AddPostActionType = {
+    type: 'ADD-POST'
+    postMessage: string
+}
+
+export type UpdateNewPostTextActionType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newText: string
+}
+
+export type ActionsTypes = AddPostActionType | UpdateNewPostTextActionType
 export const store: StoreType = {
     _state: {
         profilePage: {
@@ -72,29 +90,49 @@ export const store: StoreType = {
         sidebar: {}
 
     },
-    updateNewPostText(newText: string) {
-        this._state.profilePage.newPostText = newText
-        this._onChange()
+
+    addPost() {
+        let newPost:PostsType = {
+        id: new Date().getTime(),
+        message: this._state.profilePage.newPostText,
+        likeCount: 0
+    }
+    this._state.profilePage.posts.push(newPost)
+    this._state.profilePage.newPostText = ''
+    this._onChange(this._state)
     },
-    addPost(postMessage: string) {
-        console.log('звонок из функции addPost: ', postMessage)
-        let newPost: PostsType = {
-            id: 5,
-            message: postMessage,
-            likeCount: 0
-        }
-        this._state.profilePage.posts.push(newPost)
-        this._onChange()
-        this.updateNewPostText('')
+    updateNewPostText (newText: string) {
+        this._state.profilePage.newPostText = newText
+        this._onChange(this._state)
     },
     _onChange() {
+        //_callSubscriber в пути самурая
         console.log('State changed')
     },
+
     subscribe (callback) {
+        //observer или callback - одно и тоже
         this._onChange = callback
     },
     getState() {
         return this._state
-    }
+    },
+
+//     dispatch (action) {
+// if(action.type === 'ADD-POST') {
+//     console.log('звонок из функции addPost: ', postMessage)
+//     let newPost: PostsType = {
+//         id: 5,
+//         message: action.postMessage,
+//         likeCount: 0
+//     }
+//     this._state.profilePage.posts.push(newPost)
+//     this._onChange()
+//
+// } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+//     this._state.profilePage.newPostText = action.newText
+//     this._onChange()
+// }
+//     }
 
 }

@@ -12,16 +12,16 @@ import {RootStateType, StoreType} from "./redux/state";
 import {store} from "./redux/state";
 
 type AppPropsType = {
-    store: StoreType
+    state: RootStateType
+    updateNewPostText: (newText: string) => void
+    addPost: (postMessage: string) => void
 }
 const App: React.FC<AppPropsType> = (props) => {
 
-    const state = props.store.getState()
-
-    return (
+      return (
         //№26 мы хотим, чтобы всё контролировалось компонентой браузер-роутер, чтобы при клике по ссылке
         // страница перезагружалась
-        <BrowserRouter>
+
             <div className="app-wrapper">
                 <Header/>
                 <Navbar/>
@@ -29,11 +29,14 @@ const App: React.FC<AppPropsType> = (props) => {
                     {/*компоненты ROUTE следит за URL и если компонена видит, то URL изменился и стал равен
                     /dialogs, то он автоматически подгружает компоненту Dialogs*/}
 
-                    <Route path='/dialogs' render={() => <Dialogs state={props.store._state.dialogsPage}/>}/>
+                    <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage}/>}/>
 
                     <Route path='/profile'
-                           render={() => <Profile profilePage={props.store._state.profilePage} addPost={props.store.addPost.bind(props.store)}
-                                                  updateNewPostText={props.store.updateNewPostText.bind(props.store)}/>}/>
+                           render={() => <Profile
+                               profilePage={props.state.profilePage}
+                               addPost={props.addPost}
+                               updateNewPostText={props.updateNewPostText}
+                                                  /> } />
 
                     <Route path='/news' render={() => <News/>}/>
 
@@ -43,7 +46,7 @@ const App: React.FC<AppPropsType> = (props) => {
 
                 </div>
             </div>
-        </BrowserRouter>
+
 
     );
 }

@@ -5,7 +5,7 @@ export const Music = (props: any) => {
 
     return (
         <div>
-            MUSICCCC
+            Music - компонента
         </div>
     )
 }
