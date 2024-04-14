@@ -24,6 +24,8 @@ export type ProfilePageType = {
 export type DialogPageType = {
     dialogs: DialogsType[]
     messages: MessagesType[]
+    newMessageBody: string
+
 }
 
 type SidebarType = {}
@@ -58,7 +60,11 @@ export type AddPostActionType = ReturnType<typeof addPostAC>
 
 export type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextAC>
 
-export type ActionsTypes = AddPostActionType | UpdateNewPostTextActionType
+export type updateNewMessageBodyActionType = ReturnType<typeof updateNewMessageBodyAC>
+
+export type SendMessageActionType = ReturnType<typeof sendMessageAC>
+
+export type ActionsTypes = AddPostActionType | UpdateNewPostTextActionType | updateNewMessageBodyActionType | SendMessageActionType
 
 export const addPostAC = (postMessage: string) => {
     return {
@@ -73,6 +79,20 @@ export const updateNewPostTextAC = (newText:string) => {
         newText: newText
     } as const
 }
+
+export const updateNewMessageBodyAC = (body: string) => {
+    return {
+        type: 'UPDATE-NEW-MESSAGE-BODY',
+        body: body
+    } as const
+}
+
+export const sendMessageAC = () => {
+    return {
+        type: 'SEND-MESSAGE'
+    } as const
+}
+
 export const store: StoreType = {
     _state: {
         profilePage: {
@@ -100,7 +120,8 @@ export const store: StoreType = {
                 {id: 3, message: 'Yo'},
                 {id: 4, message: 'Yo'},
                 {id: 5, message: 'Yo'},
-            ]
+            ],
+            newMessageBody: ''
         },
         sidebar: {}
 
@@ -131,6 +152,17 @@ export const store: StoreType = {
         } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
             this._state.profilePage.newPostText = action.newText
             this._onChange(this._state)
+        } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
+            this._state.dialogsPage.newMessageBody = action.body
+            this._onChange(this._state)
+        } else if (action.type === 'SEND-MESSAGE') {
+            let body = this._state.dialogsPage.newMessageBody
+            //ниже зануляем введённое ранее сообщение
+            this._state.dialogsPage.newMessageBody = ''
+            //далее записываем это сообщение в массив сообщений - пока мутабельно, что не есть хорошо
+            this._state.dialogsPage.messages.push( {id: new Date().getTime(), message: body} )
+            this._onChange(this._state)
+
         }
     }
 

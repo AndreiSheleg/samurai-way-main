@@ -30,7 +30,8 @@ const App: React.FC<AppPropsType> = (props) => {
                 {/*компоненты ROUTE следит за URL и если компонена видит, то URL изменился и стал равен
                     /dialogs, то он автоматически подгружает компоненту Dialogs*/}
 
-                <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage}/>}/>
+                <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage}
+                dispatch={props.dispatch}/>}/>
 
                 <Route path='/profile'
                        render={() => <Profile
