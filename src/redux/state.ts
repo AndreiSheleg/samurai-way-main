@@ -1,4 +1,7 @@
 import {message} from "antd";
+import {ActionsTypes, profileReducer} from "./profile-reducer";
+import {dialogsReducer} from "./dialogs-reducer";
+import {sidebarReducer} from "./sidebar-reducer";
 
 type MessagesType = {
     id: number
@@ -10,7 +13,7 @@ type DialogsType = {
     name: string
 }
 
-type PostsType = {
+export type PostsType = {
     id: number
     message: string
     likeCount: number
@@ -55,43 +58,6 @@ export type StoreType = {
 //     type: 'UPDATE-NEW-POST-TEXT'
 //     newText: string
 // }
-
-export type AddPostActionType = ReturnType<typeof addPostAC>
-
-export type UpdateNewPostTextActionType = ReturnType<typeof updateNewPostTextAC>
-
-export type updateNewMessageBodyActionType = ReturnType<typeof updateNewMessageBodyAC>
-
-export type SendMessageActionType = ReturnType<typeof sendMessageAC>
-
-export type ActionsTypes = AddPostActionType | UpdateNewPostTextActionType | updateNewMessageBodyActionType | SendMessageActionType
-
-export const addPostAC = (postMessage: string) => {
-    return {
-        type: 'ADD-POST',
-        postMessage: postMessage
-    } as const
-}
-
-export const updateNewPostTextAC = (newText:string) => {
-    return {
-        type: 'UPDATE-NEW-POST-TEXT',
-        newText: newText
-    } as const
-}
-
-export const updateNewMessageBodyAC = (body: string) => {
-    return {
-        type: 'UPDATE-NEW-MESSAGE-BODY',
-        body: body
-    } as const
-}
-
-export const sendMessageAC = () => {
-    return {
-        type: 'SEND-MESSAGE'
-    } as const
-}
 
 export const store: StoreType = {
     _state: {
@@ -140,30 +106,13 @@ export const store: StoreType = {
     },
 
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            let newPost:PostsType = {
-                id: new Date().getTime(),
-                message: this._state.profilePage.newPostText,
-                likeCount: 0
-            }
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ''
-            this._onChange(this._state)
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profilePage.newPostText = action.newText
-            this._onChange(this._state)
-        } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
-            this._state.dialogsPage.newMessageBody = action.body
-            this._onChange(this._state)
-        } else if (action.type === 'SEND-MESSAGE') {
-            let body = this._state.dialogsPage.newMessageBody
-            //ниже зануляем введённое ранее сообщение
-            this._state.dialogsPage.newMessageBody = ''
-            //далее записываем это сообщение в массив сообщений - пока мутабельно, что не есть хорошо
-            this._state.dialogsPage.messages.push( {id: new Date().getTime(), message: body} )
-            this._onChange(this._state)
 
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action)
+        //уведомляем подписчиков об изменении стейта:
+        this._onChange(this._state)
+
     }
 
 }
