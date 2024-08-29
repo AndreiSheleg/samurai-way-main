@@ -1,7 +1,10 @@
 import {RootStateType} from "./state";
 import {ActionsTypes} from './profile-reducer'
 
-export const sidebarReducer = (state:any, action: ActionsTypes): any => {
+const initialState = {
+
+}
+export const sidebarReducer = (state:any = initialState, action: ActionsTypes): any => {
 
     return state
 }

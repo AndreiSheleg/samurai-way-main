@@ -1,7 +1,16 @@
 import {PostsType,ProfilePageType,RootStateType} from "./state";
 import {SendMessageActionType, updateNewMessageBodyActionType} from './dialogs-reducer'
 
-export const profileReducer = (state: ProfilePageType, action: ActionsTypes): ProfilePageType => {
+const initialState: ProfilePageType= {
+    posts: [
+        {id: 1, message: 'Hi, how are you?', likeCount: 12},
+        {id: 2, message: "It's my first post", likeCount: 11},
+        {id: 3, message: "Blf-blf", likeCount: 11},
+        {id: 4, message: "Hm...", likeCount: 11},
+    ],
+    newPostText: 'заглушка внутри state'
+}
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionsTypes): ProfilePageType => {
 
     switch (action.type) {
         case "ADD-POST":
